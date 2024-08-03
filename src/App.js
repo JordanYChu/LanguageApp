@@ -1,6 +1,11 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
 import { Home, BookOpen, Settings } from 'lucide-react';
+import SettingsPage from "./SettingsPage";
+import HomePage from "./HomePage";
+import QuestionsPage from "./QuestionsPage";
+import FlashcardsPage from "./FlashcardsPage";
+import TopicsPage from "./TopicsPage";
 import './App.css';
 
 const NavItem = ({ icon: Icon, text, to }) => (
@@ -9,21 +14,6 @@ const NavItem = ({ icon: Icon, text, to }) => (
     <span>{text}</span>
   </Link>
 );
-
-const HomePage = () => (
-  <div className="p-6">
-    <h2 className="text-2xl font-bold mb-4">Welcome to the Language App</h2>
-    <p>Studying!</p>
-  </div>
-);
-
-const SettingsPage = () => (
-  <div className="p-6">
-    <h2 className="text-2xl font-bold mb-4">Settings</h2>
-    <p>Settings options here.</p>
-  </div>
-);
-
 const App = () => {
   return (
     <Router>
@@ -36,6 +26,8 @@ const App = () => {
           <div className="flex flex-col space-y-2 p-4">
             <NavItem icon={Home} text="Home" to="/" />
             <NavItem icon={BookOpen} text="Flashcards" to="/flashcards" />
+            <NavItem icon={Settings} text="Topics" to="/topics" />
+            <NavItem icon={Settings} text="Questions" to="/questions" />
             <NavItem icon={Settings} text="Settings" to="/settings" />
           </div>
         </nav>
@@ -45,6 +37,9 @@ const App = () => {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/settings" element={<SettingsPage />} />
+            <Route path="/topics" element={<TopicsPage />} />
+            <Route path="/flashcards" element={<FlashcardsPage />} />
+            <Route path="/questions" element={<QuestionsPage />} />
           </Routes>
         </main>
       </div>
