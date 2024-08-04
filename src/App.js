@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
-import { Home, BookOpen, Settings } from 'lucide-react';
+import { Home, BookOpen, Settings, NotebookTabs, CircleHelp, LogOut} from 'lucide-react';
 import SettingsPage from "./SettingsPage";
 import HomePage from "./HomePage";
 import QuestionsPage from "./QuestionsPage";
@@ -21,15 +21,15 @@ const App = () => {
         {/* Navigation Sidebar */}
         <nav className="w-64 bg-white shadow-md">
           <div className="p-4">
-            <h1 className="text-xl font-bold">Language App</h1>
+            <h1 className="text-2xl font-bold text-center">Language App</h1>
           </div>
           <div className="flex flex-col space-y-2 p-4">
             <NavItem icon={Home} text="Home" to="/" />
             <NavItem icon={BookOpen} text="Flashcards" to="/flashcards" />
-            <NavItem icon={Settings} text="Topics" to="/topics" />
-            <NavItem icon={Settings} text="Questions" to="/questions" />
+            <NavItem icon={NotebookTabs} text="Topics" to="/topics" />
+            <NavItem icon={CircleHelp} text="Questions" to="/questions" />
             <NavItem icon={Settings} text="Settings" to="/settings" />
-            <NavItem icon={Settings} text="Logout" to="/settings" />
+            <NavItem icon={LogOut} text="Logout" to="/settings" />
           </div>
         </nav>
 
