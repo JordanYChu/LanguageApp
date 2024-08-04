@@ -29,6 +29,7 @@ const App = () => {
             <NavItem icon={Settings} text="Topics" to="/topics" />
             <NavItem icon={Settings} text="Questions" to="/questions" />
             <NavItem icon={Settings} text="Settings" to="/settings" />
+            <NavItem icon={Settings} text="Logout" to="/settings" />
           </div>
         </nav>
 
