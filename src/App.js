@@ -6,6 +6,7 @@ import HomePage from "./HomePage";
 import QuestionsPage from "./QuestionsPage";
 import FlashcardsPage from "./FlashcardsPage";
 import TopicsPage from "./TopicsPage";
+import ChatPage from "./ChatPage"
 import './App.css';
 
 const NavItem = ({ icon: Icon, text, to }) => (
@@ -39,6 +40,7 @@ const App = () => {
             <Route path="/" element={<HomePage />} />
             <Route path="/settings" element={<SettingsPage />} />
             <Route path="/topics" element={<TopicsPage />} />
+            <Route path="/topics/:topicId" element={<ChatPage />} />
             <Route path="/flashcards" element={<FlashcardsPage />} />
             <Route path="/questions" element={<QuestionsPage />} />
           </Routes>
