@@ -7,7 +7,7 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 // Takes in single message and the chatname
-const messageResponseGetter = (message, userID, chatName) => {
+const messageResponseGetter = (message, userID, chatID) => {
  // makes DB call to to return message history for the chat
  // append current message to the history and store in var "messages"
  // call getChatbotResponse with messages
