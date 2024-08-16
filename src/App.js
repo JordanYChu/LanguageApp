@@ -7,7 +7,13 @@ import QuestionsPage from "./QuestionsPage";
 import FlashcardsPage from "./FlashcardsPage";
 import TopicsPage from "./TopicsPage";
 import ChatPage from "./ChatPage"
+import {SignOut} from "./LoginLogout"
+import LoginPage from "./LoginScreen"
 import './App.css';
+
+import { useAuthState } from 'react-firebase-hooks/auth';
+// import { useCollectionData } from 'react-firebase-hooks/firestore';
+import {auth} from "./firebaseFuncs"
 
 const NavItem = ({ icon: Icon, text, to }) => (
   <Link to={to} className="flex items-center space-x-2 px-4 py-2 rounded hover:bg-gray-200">
@@ -16,6 +22,9 @@ const NavItem = ({ icon: Icon, text, to }) => (
   </Link>
 );
 const App = () => {
+  const [user] = useAuthState(auth);
+  console.log("user: ", user) // to remove
+  if (user){
   return (
     <Router>
       <div className="flex h-screen bg-gray-100">
@@ -25,13 +34,16 @@ const App = () => {
             <h1 className="text-2xl font-bold text-center">Language App</h1>
           </div>
           <div className="flex flex-col space-y-2 p-4">
+            <img style={{borderRadius:"100%", width:"30%", alignSelf:"center"}} src={user.photoURL} alt="" />
             <NavItem icon={Home} text="Home" to="/" />
             <NavItem icon={BookOpen} text="Flashcards" to="/flashcards" />
             <NavItem icon={NotebookTabs} text="Topics" to="/topics" />
             <NavItem icon={CircleHelp} text="Questions" to="/questions" />
             <NavItem icon={Settings} text="Settings" to="/settings" />
-            <NavItem icon={LogOut} text="Logout" to="/settings" />
+            <button onClick={SignOut}><NavItem icon={LogOut} text="Logout"></NavItem></button>
+            
           </div>
+
         </nav>
 
         {/* Main Content Area */}
@@ -48,6 +60,10 @@ const App = () => {
       </div>
     </Router>
   );
+}
+else {
+  return (<LoginPage />)
+}
 };
 
 export default App;
