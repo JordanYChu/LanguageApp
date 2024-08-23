@@ -9,6 +9,7 @@ import TopicsPage from "./TopicsPage";
 import ChatPage from "./ChatPage"
 import {SignOut} from "./LoginLogout"
 import LoginPage from "./LoginScreen"
+import { postMessage, readEntries } from './services/database';
 import './App.css';
 
 import { useAuthState } from 'react-firebase-hooks/auth';
