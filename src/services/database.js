@@ -44,6 +44,44 @@ export const postMessage = async (data) => {
 
 
 
+export const readChats = async (uid) => {
+  try{
+    const q = query(
+        collection(db, "chats"), 
+        where("UserID", "in", [uid, "DefaultChat"]),
+    );
+    const querySnapshot = await getDocs(q);
+    console.log(querySnapshot)
+
+    const entries = [];
+    querySnapshot.forEach((doc) => {
+      entries.push({ id: doc.id, ...doc.data() });
+    });
+
+    console.log("entries", entries);
+  } catch (error) {
+    console.error("Error getting chats: ", error);
+    return [];
+  }
+}
+
+
+export const createChat = async (data) => {
+  try {
+    // Reference to the specified collection
+    const collectionRef = collection(db, "chats");
+
+    // Add a new document with a generated ID
+    const docRef = await addDoc(collectionRef, {
+      ...data 
+    });
+
+    console.log("Document written with ID: ", docRef.id);
+  } catch (e) {
+    console.error("Error adding document: ", e);
+  }
+};
+
 // // Usage Example
 // const messageData = {
 //   text: "Hello, world!",
