@@ -10,6 +10,7 @@ import ChatPage from "./ChatPage"
 import {SignOut} from "./LoginLogout"
 import LoginPage from "./LoginScreen"
 import { postMessage, readEntries } from './services/database';
+import {chatHandler} from "./services/userChat"
 import './App.css';
 
 import { useAuthState } from 'react-firebase-hooks/auth';
@@ -26,8 +27,9 @@ const App = () => {
   const [user] = useAuthState(auth);
   console.log("user: ", user) // to remove
   if (user){
-  return (
-    <Router>
+    return (
+      <Router>
+      {/* <button onClick={async () => chatHandler(user.uid,"DefaultChat", "bien")}>this is a button</button> */}
       <div className="flex h-screen bg-gray-100">
         {/* Navigation Sidebar */}
         <nav className="w-64 bg-white shadow-md">

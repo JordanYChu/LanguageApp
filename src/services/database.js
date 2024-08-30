@@ -19,6 +19,10 @@ export const readEntries = async (uid, chatID, numEntries = 9) => {
     });
 
     console.log("entries", entries);
+    for (let i = 0 ; i<entries.length; i++){
+      console.log(entries[i].timeSent)
+    }
+    return entries;
   } catch (error) {
     console.error("Error getting documents: ", error);
     return [];
@@ -65,6 +69,36 @@ export const readChats = async (uid) => {
   }
 }
 
+export const getChatInfo = async (uid, chatID) => {
+  try {
+    const userQuery = query(
+      collection(db, "chats"),
+      where("UserID", "==", uid),
+      where("ChatID", "==", chatID)
+    );
+
+    const defaultQuery = query(
+      collection(db, "chats"),
+      where("UserID", "==", "DefaultChat"),
+      where("ChatID", "==", chatID)
+    );
+
+    const [userSnapshot, defaultSnapshot] = await Promise.all([
+      getDocs(userQuery),
+      getDocs(defaultQuery)
+    ]);
+
+    const entries = [];
+    userSnapshot.forEach((doc) => entries.push({ id: doc.id, ...doc.data() }));
+    defaultSnapshot.forEach((doc) => entries.push({ id: doc.id, ...doc.data() }));
+
+    console.log("entries", entries);
+    return entries[0];
+  } catch (error) {
+    console.error("Error getting chats: ", error);
+    return [];
+  }
+};
 
 export const createChat = async (data) => {
   try {
