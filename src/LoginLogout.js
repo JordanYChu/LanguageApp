@@ -3,7 +3,7 @@ import { auth } from './firebaseFuncs';
 import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
 import GoogleSignInButton from './assets/web_neutral_sq_SI.svg';
 
-
+// change to have auth be a param
 export const Login = () => {
   const signInWithGoogle = () => {
     const provider = new GoogleAuthProvider();
