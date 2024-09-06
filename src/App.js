@@ -29,7 +29,7 @@ const App = () => {
     <Router>
       <div className="flex h-screen bg-gray-100">
         {/* Navigation Sidebar */}
-        <nav className="w-64 bg-white shadow-md">
+        <nav className="z-30 w-64 bg-white shadow-md">
           <div className="p-4">
             <h1 className="text-2xl font-bold text-center">Language App</h1>
           </div>
@@ -47,7 +47,7 @@ const App = () => {
         </nav>
 
         {/* Main Content Area */}
-        <main className="flex-1 overflow-y-auto">
+        <main className="flex-1 overflow-hidden">
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/settings" element={<SettingsPage />} />
