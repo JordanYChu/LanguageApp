@@ -29,7 +29,7 @@ const App = () => {
   if (user){
     return (
       <Router>
-      {/* <button onClick={async () => chatHandler(user.uid,"DefaultChat", "bien")}>this is a button</button> */}
+      {/* <button onClick={async () => chatHandler(user.uid,"DefaultChat", "que es mi nombre")}>this is a button</button> */}
       <div className="flex h-screen bg-gray-100">
         {/* Navigation Sidebar */}
         <nav className="w-64 bg-white shadow-md">
