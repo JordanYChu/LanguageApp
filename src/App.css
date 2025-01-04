@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.gen-bg {
+    background-image: url('assets/gen-background.svg');
+    background-size: contain;
+}

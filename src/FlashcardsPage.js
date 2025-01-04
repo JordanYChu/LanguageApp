@@ -23,9 +23,6 @@ const FlashcardsPage = () => (
   <div className="p-6">
     <h2 className="text-2xl font-bold mb-4">Flashcards</h2>
     <div className="block p-2 mb-4 bg-white rounded-lg shadow-md flex">
-      <Import className='inline'/>
-      <Download className='inline'/>
-      <CirclePlus className='inline'/>
       <Search className='inline float-right'/>
       <input
         type="text"

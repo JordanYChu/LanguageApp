@@ -52,7 +52,6 @@ const Message = ({ message, isUser }) => {
 };
 
 const PreviousChats = () => (
-    // <div id={1} className="p-2 text-xl">asdasd</div>
     chats.map((chat, index) => (
       <div id={index} className="p-2 my-2 text-xl shadow-md hover:shadow-md rounded-lg">asdasd{chat.id}</div>
     ))

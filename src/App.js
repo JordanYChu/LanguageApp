@@ -11,6 +11,7 @@ import LoginPage from "./LoginScreen"
 import { postMessage, readEntries } from './services/database';
 import {chatHandler} from "./services/userChat"
 import './App.css';
+import background from './assets/gen-background.svg';
 
 import { useAuthState } from 'react-firebase-hooks/auth';
 // import { useCollectionData } from 'react-firebase-hooks/firestore';
@@ -29,9 +30,9 @@ const App = () => {
     return (
       <Router>
       {/* <button onClick={async () => chatHandler(user.uid,"DefaultChat", "que es mi nombre")}>this is a button</button> */}
-      <div className="flex h-screen bg-gray-100">
+      <div className="flex h-screen" style={{backgroundImage: `url(${background})`, backgroundSize: "cover"}}>
         {/* Navigation Sidebar */}
-        <nav className="z-30 w-64 bg-white shadow-md">
+        <nav className="z-30 w-64 bg-white shadow-lg">
           <div className="p-4">
             <h1 className="text-2xl font-bold text-center">Language App</h1>
           </div>
