@@ -18,8 +18,6 @@ export const Login = () => {
 
   return (
     <div>
-
-
       
       <button onClick={signInWithGoogle}><img src={GoogleSignInButton} alt="Continue With Google" style={{width: 250}}></img></button>
 

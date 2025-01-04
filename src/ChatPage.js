@@ -5,10 +5,11 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from "./firebaseFuncs";
 import logo from './logo.svg';
 import "./ChatPageCSS.css";
-import InteractableSlider from "./InteractableSlider"
 import { chatHandler } from "./services/userChat";
 import './services/database'
 import { getChatInfo, readChats, readEntries } from "./services/database";
+
+
 
 const topics = [
   {id: 1, topic: "Traveling"},
@@ -42,7 +43,7 @@ const Message = ({ message, isUser }) => {
   return (
     <div className={`flex flex-row ${isUser ? 'justify-end' : ''}`}>
       {!isUser && <UserIcon photoURL={logo} />}
-      <div className="break-words py-2 px-4 bg-white rounded-lg shadow-md mb-4 mx-4 flex-grow text-sm max-w-[calc(100%-5rem)]">
+      <div className="break-words w-fit max-w-[calc(100%-6rem)] py-2 px-4 bg-white rounded-lg shadow-md mb-4 mx-4 text-sm">
         {message}
       </div>
       {isUser && <UserIcon photoURL={user?.photoURL} />}
@@ -57,20 +58,20 @@ const PreviousChats = () => (
     ))
 )
 const ChatPage = () => {
-    const getEntries = async (user) => {
-      let a = await readEntries(user.uid, "DefaultChat")
-      setMessages(a);
-    }
     
     const [user] = useAuthState(auth);
 
     const { topicId } = useParams();
-    const topic = topics[topicId - 1]?.topic || "Unknown Topic";
+    const currChat = topicId;
     
     const [messages, setMessages] = useState(initialHistory);
     const [text, setText] = useState('');
     const [chatBar, setChatBar] = useState(true);
 
+    const getEntries = async (user) => {
+      let a = await readEntries(user.uid, currChat)
+      setMessages(a);
+    }
 
 
     useEffect(()=>{
@@ -83,7 +84,7 @@ const ChatPage = () => {
     };
 
     const getBotMessage = async (text) => {
-      let botMessage = await chatHandler(user.uid ,"DefaultChat",text);
+      let botMessage = await chatHandler(user.uid , currChat,text);
       await setMessages([{ Agent: "assistant", message: botMessage }, { Agent: "user", message: text}, ...messages]);
       console.log(messages);
   } 
@@ -94,26 +95,10 @@ const ChatPage = () => {
           setText('');
         }
     };
-
     return (
       <>
-        {/* <div id="botInfo" className={`overflow-hidden right-0 transition duration-500 z-20 ${chatBar ? '' : 'translate-x-150' }  flex-col p-4 m-4 w-1/4 shadow-md rounded-lg absolute bg-white h-[calc(100vh-2rem)]` }>
-          <div>Go back</div>
-          <InteractableSlider emotion={"Happiness"}/>
-          <InteractableSlider emotion={"Sadness"}/>
-          <InteractableSlider emotion={"Anger"}/>
-          <InteractableSlider emotion={"Disgust"}/>
-          <InteractableSlider emotion={"Fear"}/>
-        </div>
-        <div id="pastChats" className={`transition duration-500 z-20 ${chatBar ? '' : '-translate-x-150' }  flex-col p-4 m-4 w-1/6 shadow-md rounded-lg absolute bg-white h-[calc(100vh-2rem)]` }>
-          <div>Go back</div>
-          <PreviousChats />
-        </div>
-        <div onClick={() => setChatBar(false)} className={`transition z-10 top-0 left-0 right-0 bottom-0 absolute block h-full ${chatBar ? 'bg-gray-800 bg-opacity-50' : ''}`}>
-        </div> */}
-
         <div className="p-6 flex flex-col h-screen xl:mx-48 md:mx-12">
-          <h2 className="text-center text-2xl font-bold mb-4">{topic}</h2>
+          <h2 className="text-center text-2xl font-bold mb-4">{currChat}</h2>
           <div id="test" className="flex-grow overflow-y-scroll scrollbar-hide overflow-x-hidden">
               {messages.toReversed().map((message, index) => (
                   <Message key={index} message={message.message} isUser={message.Agent === "user"} />
