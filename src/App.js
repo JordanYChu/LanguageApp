@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
 import { Home, BookOpen, Settings, NotebookTabs, CircleHelp, LogOut} from 'lucide-react';
-import SettingsPage from "./SettingsPage";
 import HomePage from "./HomePage";
 import QuestionsPage from "./QuestionsPage";
 import FlashcardsPage from "./FlashcardsPage";
@@ -42,7 +41,6 @@ const App = () => {
             <NavItem icon={BookOpen} text="Flashcards" to="/flashcards" />
             <NavItem icon={NotebookTabs} text="Topics" to="/topics" />
             <NavItem icon={CircleHelp} text="Questions" to="/questions" />
-            <NavItem icon={Settings} text="Settings" to="/settings" />
             <button onClick={SignOut}><NavItem icon={LogOut} text="Logout"></NavItem></button>
             
           </div>
@@ -53,7 +51,6 @@ const App = () => {
         <main className="flex-1 overflow-hidden">
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/settings" element={<SettingsPage />} />
             <Route path="/topics" element={<TopicsPage />} />
             <Route path="/topics/:topicId" element={<ChatPage />} />
             <Route path="/flashcards" element={<FlashcardsPage />} />
