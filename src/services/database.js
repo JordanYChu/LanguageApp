@@ -63,6 +63,7 @@ export const readChats = async (uid) => {
     });
 
     console.log("entries", entries);
+    return entries;
   } catch (error) {
     console.error("Error getting chats: ", error);
     return [];
