@@ -8,7 +8,6 @@ import TopicsPage from "./TopicsPage";
 import ChatPage from "./ChatPage"
 import {SignOut} from "./LoginLogout"
 import LoginPage from "./LoginScreen"
-import { postMessage, readEntries } from './services/database';
 import {chatHandler} from "./services/userChat"
 import './App.css';
 import background from './assets/gen-background.svg';
