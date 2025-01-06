@@ -1,9 +1,10 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
-import { Home, BookOpen, Settings, NotebookTabs, CircleHelp, LogOut} from 'lucide-react';
+import { Home, BookOpen, NotebookTabs, CircleHelp, LogOut} from 'lucide-react';
 import HomePage from "./HomePage";
 import QuestionsPage from "./QuestionsPage";
 import FlashcardsPage from "./FlashcardsPage";
+import FlashcardsGame from "./FlashcardsPage";
 import TopicsPage from "./TopicsPage";
 import ChatPage from "./ChatPage"
 import {SignOut} from "./LoginLogout"
@@ -55,6 +56,7 @@ const App = () => {
             <Route path="/topics" element={<TopicsPage />} />
             <Route path="/topics/:topicId" element={<ChatPage />} />
             <Route path="/flashcards" element={<FlashcardsPage />} />
+            <Route path="/flashcards/:deckId" element={<FlashcardsGame />} />
             <Route path="/questions" element={<QuestionsPage />} />
           </Routes>
         </main>
