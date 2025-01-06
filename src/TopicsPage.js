@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useState } from 'react';
 import { auth } from './firebaseFuncs';
+import { languageList } from './languageService';
 
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
@@ -20,7 +21,7 @@ const topicstemp = [
 ]
 
 
-const languageList = ["Spanish", "French", "German", "Japanese"]
+// const languageList = ["Spanish", "French", "German", "Japanese"]
 const iconPresetList = [Gamepad2, Apple, Plane, PawPrint, Briefcase, Bike, Bot, Brain, Cpu, HeartPulse, BookX, School, Clapperboard, Leaf, Goal, Microscope, Shirt, Palette, CookingPot, BookOpenText, Music, Dumbbell, CandyCane]
 
 function Icon({ icon: Icon }) {
@@ -28,6 +29,7 @@ return <Icon size={80} className="mx-auto text-purple-400 hover:text-orange-500 
 }
 
 const TopicsPage= () => {
+  const [currLanguage, setLanguage] = useState("English");
 
   const [user] = useAuthState(auth)
   // const [user] = useAuthState(auth);
@@ -79,6 +81,43 @@ const TopicsPage= () => {
       prevTopics.map(topic => ({ ...topic, hidden: !topic.ChatID.toLowerCase().includes(searchTerm) }))
     );
   }
+  const LanguageSelector = () => {
+    return (
+      <Menu as="div" className="relative bg-whiteinline-block text-left">
+        <div>
+          <MenuButton className="inline-flex w-48 justify-center gap-x-1.5 rounded-md bg-white px-5 py-2 text-md font-semibold text-gray-900 shadow-md hover:bg-gray-50">
+            <span className='flex-1 text-center truncate'>
+              {currLanguage}
+            </span>
+            <ChevronDownIcon aria-hidden="true" className="-mr-1 size-5 text-gray-400" />
+          </MenuButton>
+        </div>
+
+        <MenuItems
+          transition
+          className="absolute left-0 z-10 mt-2 max-h-96 overflow-scroll origin-top-right rounded-md bg-white shadow-lg
+          overflow-y-auto  [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']
+          "
+        >
+          {languageList.map((lang, index) => (
+            <div  key={index} className="py-1">
+              <MenuItem>
+                <a onClick={(e) => {
+                  e.preventDefault()
+                    setLanguage(lang)
+                  }} 
+                  className="block px-4 py-1 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900 data-[focus]:outline-none" >
+                  {lang}
+                </a>
+              </MenuItem>
+            </div>
+            )
+          )}
+        </MenuItems>
+      </Menu>
+    )
+  }
+
 
   return (
     <div className="p-6">
@@ -148,35 +187,6 @@ const TopicsPage= () => {
     </div>
   )
 };
-
-const LanguageSelector = () => {
-  return (
-    <Menu as="div" className="relative bg-whiteinline-block text-left">
-      <div>
-        <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-md font-semibold text-gray-900 shadow-md hover:bg-gray-50">
-          Language
-          <ChevronDownIcon aria-hidden="true" className="-mr-1 size-5 text-gray-400" />
-        </MenuButton>
-      </div>
-
-      <MenuItems
-        transition
-        className="absolute left-0 z-10 mt-2 origin-top-right rounded-md bg-white shadow-lg"
-      >
-        {languageList.map((lang, index) => (
-          <div  key={index} className="py-1">
-            <MenuItem>
-              <a className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900 data-[focus]:outline-none" >
-                {lang}
-              </a>
-            </MenuItem>
-          </div>
-          )
-        )}
-      </MenuItems>
-    </Menu>
-  )
-}
 
 
 export default TopicsPage;
