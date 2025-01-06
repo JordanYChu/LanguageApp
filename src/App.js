@@ -4,7 +4,7 @@ import { Home, BookOpen, NotebookTabs, CircleHelp, LogOut} from 'lucide-react';
 import HomePage from "./HomePage";
 import QuestionsPage from "./QuestionsPage";
 import FlashcardsPage from "./FlashcardsPage";
-import FlashcardsGame from "./FlashcardsPage";
+import FlashcardsGame from "./FlashcardsGame";
 import TopicsPage from "./TopicsPage";
 import ChatPage from "./ChatPage"
 import {SignOut} from "./LoginLogout"

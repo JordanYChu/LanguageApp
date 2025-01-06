@@ -11,17 +11,6 @@ import { getChatInfo, readChats, readEntries } from "./services/database";
 
 
 
-const topics = [
-  {id: 1, topic: "Traveling"},
-  {id: 2, topic: "Testing"},
-  {id: 3, topic: "Boring stuff"},
-  {id: 4, topic: "Cool topic"},
-  {id: 5, topic: "Forgetful topics"},
-  {id: 6, topic: "Family"}
-];
-
-const initialHistory = [
-];
 
 const chats = [
   {id: 1},
@@ -63,7 +52,7 @@ const ChatPage = () => {
     const { topicId } = useParams();
     const currChat = topicId;
     
-    const [messages, setMessages] = useState(initialHistory);
+    const [messages, setMessages] = useState(null);
     const [text, setText] = useState('');
     const [chatBar, setChatBar] = useState(true);
 

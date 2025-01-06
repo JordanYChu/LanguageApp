@@ -1,4 +1,5 @@
 import { Import, Download, CirclePlus, Search } from 'lucide-react';
+import { Link } from "react-router-dom";
 import { useState } from 'react';
 
 var temp= [
@@ -19,12 +20,13 @@ const FlashcardsPage = () => {
   };
   const Decks = () => (
     decks.map(deck => (
-      <div className={`hover:translate-y-[-5px] duration-200 block p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadowblock ${deck.hidden ? 'hidden' : ''}`}> <h3 className="text-lg text-center">{deck.name}</h3>
+      <Link key={deck.name} to={`/flashcards/${deck.name}`} className={`hover:translate-y-[-5px] duration-200 block p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadowblock ${deck.hidden ? 'hidden' : ''}`}>
+        <h3 className="text-lg text-center">{deck.name}</h3>
         <div>
           <span className="float-left text-green-600">{deck.cards}</span>
           <span className="float-right text-red-600">{deck.newCards}</span>
         </div>
-      </div>
+      </Link >
     ))
   )
 
