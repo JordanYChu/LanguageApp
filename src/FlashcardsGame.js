@@ -1,16 +1,26 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { getFlashcards } from "./services/database";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "./firebaseFuncs";
 
 const FlashcardsGame = () => {
     const [isFlipped, setIsFlipped] = useState(false);
+    const [deck, setDeck] = useState(null);
     const [currentCard, setCurrentCard] = useState(0);
-    
+    const [user] = useAuthState(auth);
+
+    const { deckId } = useParams();
+
     // Example cards array
-    const cards = [
-      { front: "Hello", back: "Hola" },
-      { front: "Goodbye", back: "Adiós" },
-      { front: "Thank you", back: "Gracias" }
-    ];
+    useEffect(()=>{
+        getFlashcards(user.uid, deckId).then(flashcards => {setDeck(flashcards)});
+    }, []) 
+    // const cards = [
+    //   {word: "Hello", translation: "Hola", visited: false },
+    //   { front: "Goodbye", back: "Adiós" },
+    //   { front: "Thank you", back: "Gracias" }
+    // ];
   
     useEffect(() => {
       const handleKeyPress = (e) => {
@@ -23,7 +33,7 @@ const FlashcardsGame = () => {
     }, [isFlipped]);
   
     const handleNext = () => {
-      setCurrentCard((prev) => (prev + 1) % cards.length);
+      setCurrentCard((prev) => (prev + 1) % deck.length);
       setIsFlipped(false);
     };
   
@@ -41,7 +51,7 @@ const FlashcardsGame = () => {
           >
             <div className={`relative w-full h-full duration-500 preserve-3d`}>
               <div className="absolute w-full h-full backface-hidden bg-white rounded-xl shadow-lg flex items-center justify-center text-2xl p-4">
-                {isFlipped ? cards[currentCard].front : cards[currentCard].back}
+                {deck &&  deck.length > 0 && (isFlipped ? deck[currentCard].word: deck[currentCard].translation)}
               </div>
             </div>
           </div>
