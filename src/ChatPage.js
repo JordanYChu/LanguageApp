@@ -52,7 +52,7 @@ const ChatPage = () => {
     const { topicId } = useParams();
     const currChat = topicId;
     
-    const [messages, setMessages] = useState(null);
+    const [messages, setMessages] = useState([]);
     const [text, setText] = useState('');
     const [chatBar, setChatBar] = useState(true);
 

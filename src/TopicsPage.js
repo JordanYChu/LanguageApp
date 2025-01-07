@@ -1,4 +1,4 @@
-import { CirclePlus, Search} from 'lucide-react';
+import { CirclePlus, Play, Search, User} from 'lucide-react';
 import { Gamepad2, Apple, Plane, PawPrint, Briefcase, Bike, Bot, Brain, Cpu, HeartPulse, BookX, School, Clapperboard, Leaf, Goal, Microscope, Shirt, Palette, CookingPot, BookOpenText, Music, Dumbbell, CandyCane} from 'lucide-react';
 import { Link } from "react-router-dom";
 import { readChats } from './services/database';
@@ -7,6 +7,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { useState } from 'react';
 import { auth } from './firebaseFuncs';
 import { languageList } from './languageService';
+import { createChat } from './services/database';
 
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
@@ -37,6 +38,9 @@ const TopicsPage= () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newTopic, setNewTopic] = useState({ title: '', description: '' });
+
+  const [topicTitle, setTopicTitle] = useState('');
+  const [topicDescription, setTopicDescription] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -118,71 +122,79 @@ const TopicsPage= () => {
     )
   }
 
+  const addNewTopic = (e) => {
+    e.preventDefault();
+    createChat({
+      BotName: topicTitle,
+      ChatID: topicTitle,
+      SystemMsg: topicDescription,
+      UserID: user.uid
+    })
+  }
+
 
   return (
-    <div className="p-6">
+    <div className="flex flex-col h-screen p-6">
       <h2 className="text-2xl font-bold mb-4 text-center">Topics</h2>
       <div className='flex justify-between gap-2'>
         <div className=" grow block p-2 mb-4 bg-white rounded-lg shadow-md flex">
           <Search className='inline float-right'/>
           <input onChange={handleSearch}
             type="text"
-            className='inline focus:outline-none float-right'
+            className='inline px-2 focus:outline-none float-right w-full'
             placeholder='Search...'  
             />
         </div>
-        <LanguageSelector />
-      </div>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-8 max-h-[90vh] overflow-y-auto  [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
+        <button className='flex justify-center gap-x-2 rounded-lg px-6 py-2 mb-4 shadow-md bg-white hover:bg-gray-50'
+          onClick={() => setIsModalOpen(true)}
+        >
+            <span className='flex-1 text-center'>
+              Add Topic
+            </span>
+            <CirclePlus className='-mr-1'/>
+          </button >
+          <LanguageSelector />
+        </div>
+      <div className="flex-1  overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-8">
           {<Topic />}
-          <div onClick={() => setIsModalOpen(true)} className={`size-full aspect-square inline p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadowblock`}>
-            <CirclePlus className='inline float-right'/>
-            <h2 className="text-lg text-center hover:underline">Add Topic</h2>
-          </div>
-          {isModalOpen && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-            <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-              <h3 className="text-xl font-bold mb-4">Add New Topic</h3>
-              <form onSubmit={handleSubmit}>
-                <div className="mb-4">
-                  <label className="block text-sm font-medium mb-1">Title</label>
-                  <input
-                    type="text"
-                    className="w-full p-2 border rounded"
-                    value={newTopic.title}
-                    onChange={(e) => setNewTopic({...newTopic, title: e.target.value})}
-                    required
-                  />
-                </div>
-                <div className="mb-4">
-                  <label className="block text-sm font-medium mb-1">Description</label>
-                  <textarea
-                    className="w-full p-2 border rounded"
-                    value={newTopic.description}
-                    onChange={(e) => setNewTopic({...newTopic, description: e.target.value})}
-                    rows="4"
-                    required
-                  />
-                </div>
-                <div className="flex justify-end gap-2">
-                  <button
-                    type="button"
-                    className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded"
-                    onClick={() => setIsModalOpen(false)}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-                  >
-                    Add Topic
-                  </button>
-                </div>
-              </form>
+      {isModalOpen && (
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+        <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+          <h3 className="text-xl font-bold mb-4">Add New Deck</h3>
+          <form  onSubmit={addNewTopic}>
+            <div className="mb-4">
+              <label className="block text-sm font-medium mb-1">Title</label>
+              <input
+                type="text"
+                className="w-full p-2 border rounded"
+                onChange={(e) => setTopicTitle(e.target.value )}
+                required
+              />
+              <label className="block text-sm font-medium mb-1">Description</label>
+              <textarea
+                className="w-full p-2 border rounded resize-none h-24"
+                placeholder="Enter topic description..."
+                onChange={(e) => setTopicDescription(e.target.value)}
+                required
+              />
             </div>
-          </div>
-        )}
+            <div className="flex justify-end mt-4 gap-2">
+              <button type="button" className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded"
+                onClick={() => setIsModalOpen(false)} >
+                Cancel
+              </button>
+              <button type="submit" className="px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600" >
+                Add Topic
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      )}
+
+      </div>
+
       </div>
     </div>
   )
