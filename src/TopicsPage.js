@@ -32,7 +32,8 @@ const topicIconMapping = {
   'Music': Music,
   'Sports': Bike,
   'Technology': Cpu,
-  'AI': Bot,
+  'Ai': Bot,
+  'Dreams': Brain,
   'Fitness': Dumbbell,
   'Career': Briefcase,
   'Education': School,
@@ -92,7 +93,9 @@ const TopicsPage= () => {
 
   const Topic = () => {
      return (
-      topics.map(topic => (
+      topics.map(topic => {
+        if(topic.ChatID === "Questions") return null;
+        return (
         <Link key={`${topic.ChatID}`} to={`/topics/${topic.ChatID}`} 
         className={`${topic.hidden ? "hidden" : ""} duration-200 size-full aspect-square inline p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadowblock flex flex-col items-center`}>
           <h2 className="text-xl mb-4">{topic.ChatID}</h2>
@@ -100,7 +103,8 @@ const TopicsPage= () => {
             <Icon icon={topic.icon} />
           </div>
         </Link>
-      ))
+        )
+      })
     )
   }
   const handleSearch = (e) => {

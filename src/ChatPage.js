@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { SendHorizontal } from "lucide-react";
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from "./firebaseFuncs";
-import logo from './logo.svg';
+import logo from './logo192.png';
 import "./ChatPageCSS.css";
 import { chatHandler } from "./services/userChat";
 import './services/database'
@@ -54,7 +54,7 @@ const ChatPage = () => {
     
     const [messages, setMessages] = useState([]);
     const [text, setText] = useState('');
-    const [chatBar, setChatBar] = useState(true);
+    // const [chatBar, setChatBar] = useState(true);
 
     const getEntries = async (user) => {
       let a = await readEntries(user.uid, currChat)
@@ -63,7 +63,6 @@ const ChatPage = () => {
 
 
     useEffect(()=>{
-      console.log("tesitnestksdfjlkjl;fkj")
       getEntries(user);
     }, []) 
 

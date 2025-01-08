@@ -8,6 +8,7 @@ import { addDeck } from './services/database';
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { ChevronDownIcon } from 'lucide-react';
 import { languageList } from './languageService';
+import { getNumberOfNewCardsInDeck, getNumberOfCardsInDeck } from './services/database';
 
 
 const FlashcardsPage = () => {
@@ -20,10 +21,26 @@ const FlashcardsPage = () => {
   const [currLanguage, setLanguage] = useState("English");
   const [front, setFront] = useState('');
   const [back, setBack] = useState('');
-  useEffect(()=>{
-    getDecks(user.uid).then(decks => {setDecks(decks)});
-  }, []) 
+  const loadDecks = () => {
+    const fetchDecksWithCounts = async () => {
+      const rawDecks = await getDecks(user.uid);
+      const decksWithCounts = await Promise.all(
+        rawDecks.map(async (deck) => ({
+          ...deck,
+          newCards: await getNumberOfNewCardsInDeck(deck.id),
+          totalCards: await getNumberOfCardsInDeck(deck.id)
+        }))
+      );
+      setDecks(decksWithCounts);
 
+    };
+    if (user) {
+      fetchDecksWithCounts();
+    }
+  }
+  useEffect(() => {
+    loadDecks();
+  }, [user]);
   const handleSearch = (e) => {
     const searchTerm = e.target.value.toLowerCase();
     setDecks(prevDecks => 
@@ -35,8 +52,8 @@ const FlashcardsPage = () => {
       <Link key={deck.title} to={`/flashcards/${deck.id}`} className={`hover:translate-y-[-5px] duration-200 block p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadowblock ${deck.hidden ? 'hidden' : ''}`}>
         <h3 className="text-lg text-center">{deck.title}</h3>
         <div>
-          <span className="float-left text-green-600">temp</span>
-          <span className="float-right text-red-600">temp</span>
+          <span className="float-left text-green-600">{deck.totalCards}</span>
+          <span className="float-right text-red-600">{deck.newCards}</span>
         </div>
       </Link >
     ))
@@ -123,6 +140,7 @@ const FlashcardsPage = () => {
       visited: false,
       deck: currDeckChosen.id
     })
+    loadDecks();
     setIsModalCardOpen(false)
   }
   const addNewDeck = (e) => {
@@ -132,7 +150,7 @@ const FlashcardsPage = () => {
       language: currLanguage,
       userID: user.uid
     });
-    getDecks(user.uid).then(decks => {setDecks(decks)});
+    loadDecks();
   }
   return (
     <div className="p-6">
