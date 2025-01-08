@@ -1,4 +1,4 @@
-import { CirclePlus, Play, Search, User} from 'lucide-react';
+import { CirclePlus, Play, Search, User, Wrench} from 'lucide-react';
 import { Gamepad2, Apple, Plane, PawPrint, Briefcase, Bike, Bot, Brain, Cpu, HeartPulse, BookX, School, Clapperboard, Leaf, Goal, Microscope, Shirt, Palette, CookingPot, BookOpenText, Music, Dumbbell, CandyCane} from 'lucide-react';
 import { Link } from "react-router-dom";
 import { readChats } from './services/database';
@@ -24,6 +24,30 @@ const topicstemp = [
 
 // const languageList = ["Spanish", "French", "German", "Japanese"]
 const iconPresetList = [Gamepad2, Apple, Plane, PawPrint, Briefcase, Bike, Bot, Brain, Cpu, HeartPulse, BookX, School, Clapperboard, Leaf, Goal, Microscope, Shirt, Palette, CookingPot, BookOpenText, Music, Dumbbell, CandyCane]
+const topicIconMapping = {
+  'Travel': Plane,
+  'Food': Apple,
+  'Books': BookOpenText,
+  'Movies': Clapperboard,
+  'Music': Music,
+  'Sports': Bike,
+  'Technology': Cpu,
+  'AI': Bot,
+  'Fitness': Dumbbell,
+  'Career': Briefcase,
+  'Education': School,
+  'Nature': Leaf,
+  'Pets': PawPrint,
+  'Gaming': Gamepad2,
+  'History': BookX,
+  'Art': Palette,
+  'Fashion': Shirt,
+  'Goals': Goal,
+  'Holidays': CandyCane,
+  'Science': Microscope,
+  'Health': HeartPulse,
+  'Cooking': CookingPot
+};
 
 function Icon({ icon: Icon }) {
 return <Icon size={80} className="mx-auto text-purple-400 hover:text-orange-500 duration-50" />;
@@ -58,7 +82,7 @@ const TopicsPage= () => {
 
     const topicsWithIcons = topicsWithHidden.map((topic,index) => ({
       ...topic,
-      icon: iconPresetList[index % iconPresetList.length]
+      icon: topicIconMapping[topic.ChatID] || Wrench
      }));
     setTopics(topicsWithIcons)
   }
