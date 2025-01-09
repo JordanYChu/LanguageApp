@@ -13,6 +13,9 @@ import {chatHandler} from "./services/userChat"
 import './App.css';
 import background from './assets/gen-background.svg';
 
+import { LanguageProvider } from './LanguageContext';
+
+
 import { useAuthState } from 'react-firebase-hooks/auth';
 // import { useCollectionData } from 'react-firebase-hooks/firestore';
 import {auth} from "./firebaseFuncs"
@@ -52,8 +55,18 @@ const App = () => {
         <main className="flex-1 overflow-hidden">
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/topics" element={<TopicsPage />} />
-            <Route path="/topics/:topicId" element={<ChatPage />} />
+            <Route path="/topics" element={
+              <LanguageProvider>
+              <TopicsPage />
+              </LanguageProvider>
+              
+              } />
+            
+            <Route path="/topics/:topicId" element={
+             <LanguageProvider> 
+              <ChatPage />
+             </LanguageProvider>
+              } />
             <Route path="/flashcards" element={<FlashcardsPage />} />
             <Route path="/flashcards/:deckId" element={<FlashcardsGame />} />
             <Route path="/questions" element={<QuestionsPage />} />

@@ -1,6 +1,6 @@
 import {postMessage, getChatInfo, readChats, readEntries} from "./database"
 import {getChatbotResponse} from "./openaihelper"
-export const chatHandler = async (uid, chatID, msg) => {
+export const chatHandler = async (uid, chatID, msg, language) => {
     // save the msg to db
     const messageData = {
         Agent: "user",
@@ -15,7 +15,7 @@ export const chatHandler = async (uid, chatID, msg) => {
     
     console.log("chatInfo: ", chatInfo)
     // get the chat systemmsg
-    const systemMsg = chatInfo.SystemMsg;
+    const systemMsg = chatInfo.SystemMsg + " Speak only in " + language; 
     // get past messages
     const messages = await readEntries(uid, chatID);
 
