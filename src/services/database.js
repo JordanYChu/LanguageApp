@@ -1,6 +1,9 @@
 import {db} from "../firebaseFuncs"
 import { collection, query, addDoc, serverTimestamp, orderBy, limit, where, getDocs, deleteDoc, doc, updateDoc } from "firebase/firestore";
 
+// Add this at the top level of the file with other imports
+const pendingUserInfoCreations = new Set();
+
 export const readEntries = async (uid, chatID, numEntries = 9) => {
   try{
     const q = query(
@@ -348,21 +351,6 @@ export const testFlashcardFunctions = async (uid) => {
 
 // =========================== User info =====================================
 
-export const addUserInfo = async (uid) => {
-  try {
-    const collectionRef = collection(db, "userInfo");
-    const docRef = await addDoc(collectionRef, {
-      lastUsed: new Date(),
-      recentDeck: null,
-      streak: 0,
-      uid: uid
-    });
-    console.log("User info added with ID: ", docRef.id);
-  } catch (e) {
-    console.error("Error adding user info: ", e);
-  }
-};
-
 export const GetUserInfo = async (uid) => {
   try {
     const q = query(
@@ -375,14 +363,43 @@ export const GetUserInfo = async (uid) => {
       userInfo.push({ id: doc.id, ...doc.data() });
     });
 
-    if (userInfo.length === 0) { 
-      await addUserInfo(uid);
-      return await GetUserInfo(uid);
+    if (userInfo.length === 0) {
+      // Check if we're already creating an entry for this uid
+      if (pendingUserInfoCreations.has(uid)) {
+        // Wait a bit and try again
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        return GetUserInfo(uid);
+      }
+
+      try {
+        pendingUserInfoCreations.add(uid);
+        const docRef = await addDoc(collection(db, "userInfo"), {
+          lastUsed: serverTimestamp(),
+          recentDeck: null,
+          streak: 0,
+          uid: uid
+        });
+        
+        const newUserInfo = {
+          id: docRef.id,
+          lastUsed: new Date(),
+          recentDeck: null,
+          streak: 0,
+          uid: uid
+        };
+
+        pendingUserInfoCreations.delete(uid);
+        return newUserInfo;
+      } catch (error) {
+        pendingUserInfoCreations.delete(uid);
+        throw error;
+      }
     }
 
     return userInfo[0];
   } catch (error) {
     console.error("Error getting user info: ", error);
+    pendingUserInfoCreations.delete(uid);
     return null;
   }
 };
@@ -397,7 +414,6 @@ export const updateStreak = async (uid) => {
     const lastUsed = userInfo.lastUsed.toDate();
     const today = new Date();
 
-    // Reset time to midnight for both dates to compare only the calendar day
     lastUsed.setHours(0, 0, 0, 0);
     today.setHours(0, 0, 0, 0);
 
@@ -413,14 +429,14 @@ export const updateStreak = async (uid) => {
     }
 
     await updateDoc(doc(db, "userInfo", userInfo.id), {
-      lastUsed: today, // Use the current date without time
+      lastUsed: serverTimestamp(),
       streak: newStreak
     });
 
-    console.log("Streak updated successfully");
-    return newStreak;
+    return newStreak; // Return the actual streak value instead of hardcoded 10
   } catch (error) {
-    console.error("Error updating streak: ", error);
+    console.error("Error updating streak:", error);
+    return 0; // Return 0 in case of error
   }
 };
 

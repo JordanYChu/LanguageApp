@@ -1,14 +1,45 @@
 import { Link } from "react-router-dom";
-import { ArrowRightSquare , CircleCheckBig} from "lucide-react";
+import { ArrowRightSquare, CircleCheckBig } from "lucide-react";
+import { updateStreak } from "./services/database";
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth } from './firebaseFuncs';
+import { useEffect, useState } from 'react';
+
 const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
 const HomePage = () => {
+  const [user] = useAuthState(auth);
+  const [streak, setStreak] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   const today = new Date();
   const month = monthNames[today.getMonth()];
   const year = today.getFullYear();
   const day = today.getDate();
+  
+  useEffect(() => {
+    const fetchStreak = async () => {
+      if (user) {
+        try {
+          const newStreak = await updateStreak(user.uid);
+          setStreak(newStreak || 0);
+        } catch (error) {
+          console.error("Error fetching streak:", error);
+        } finally {
+          setLoading(false);
+        }
+      }
+    };
 
-  var DailyDone = true;
+    fetchStreak();
+  }, [user]);
+
+  const DailyDone = true; // You might want to make this dynamic based on user's daily activity
+
+  if (loading) {
+    return <div className="p-6 text-center">Loading...</div>;
+  }
+
   return (
     <div className="p-6">
       <h1 className="text-6xl font-bold mb-4">Welcome Back</h1>
@@ -20,7 +51,7 @@ const HomePage = () => {
         <div className="flex justify-center">
           <div className="flex justify-center bg-white rounded-lg shadow-md p-2 items-center text-xl">
               <h2 className="text-2xl">🔥</h2>
-              <h2 className="text-2xl text-center"><b>142</b> Streak</h2>
+              <h2 className="text-2xl text-center"><b>{streak}</b> Streak</h2>
           </div>
         </div>
         <div className="flex justify-center">
