@@ -1,4 +1,4 @@
-import { CirclePlus, Play, Search, User} from 'lucide-react';
+import { CirclePlus, Play, Search, User, Wrench} from 'lucide-react';
 import { Gamepad2, Apple, Plane, PawPrint, Briefcase, Bike, Bot, Brain, Cpu, HeartPulse, BookX, School, Clapperboard, Leaf, Goal, Microscope, Shirt, Palette, CookingPot, BookOpenText, Music, Dumbbell, CandyCane} from 'lucide-react';
 import { Link } from "react-router-dom";
 import { readChats } from './services/database';
@@ -26,6 +26,31 @@ const topicstemp = [
 
 // const languageList = ["Spanish", "French", "German", "Japanese"]
 const iconPresetList = [Gamepad2, Apple, Plane, PawPrint, Briefcase, Bike, Bot, Brain, Cpu, HeartPulse, BookX, School, Clapperboard, Leaf, Goal, Microscope, Shirt, Palette, CookingPot, BookOpenText, Music, Dumbbell, CandyCane]
+const topicIconMapping = {
+  'Travel': Plane,
+  'Food': Apple,
+  'Books': BookOpenText,
+  'Movies': Clapperboard,
+  'Music': Music,
+  'Sports': Bike,
+  'Technology': Cpu,
+  'Ai': Bot,
+  'Dreams': Brain,
+  'Fitness': Dumbbell,
+  'Career': Briefcase,
+  'Education': School,
+  'Nature': Leaf,
+  'Pets': PawPrint,
+  'Gaming': Gamepad2,
+  'History': BookX,
+  'Art': Palette,
+  'Fashion': Shirt,
+  'Goals': Goal,
+  'Holidays': CandyCane,
+  'Science': Microscope,
+  'Health': HeartPulse,
+  'Cooking': CookingPot
+};
 
 function Icon({ icon: Icon }) {
 return <Icon size={80} className="mx-auto text-purple-400 hover:text-orange-500 duration-50" />;
@@ -60,7 +85,7 @@ const TopicsPage= () => {
 
     const topicsWithIcons = topicsWithHidden.map((topic,index) => ({
       ...topic,
-      icon: iconPresetList[index % iconPresetList.length]
+      icon: topicIconMapping[topic.ChatID] || Wrench
      }));
     setTopics(topicsWithIcons)
   }
@@ -70,7 +95,9 @@ const TopicsPage= () => {
 
   const Topic = () => {
      return (
-      topics.map(topic => (
+      topics.map(topic => {
+        if(topic.ChatID === "Questions") return null;
+        return (
         <Link key={`${topic.ChatID}`} to={`/topics/${topic.ChatID}`} 
         className={`${topic.hidden ? "hidden" : ""} duration-200 size-full aspect-square inline p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadowblock flex flex-col items-center`}>
           <h2 className="text-xl mb-4">{topic.ChatID}</h2>
@@ -78,7 +105,8 @@ const TopicsPage= () => {
             <Icon icon={topic.icon} />
           </div>
         </Link>
-      ))
+        )
+      })
     )
   }
   const handleSearch = (e) => {
@@ -132,6 +160,7 @@ const TopicsPage= () => {
       SystemMsg: topicDescription,
       UserID: user.uid
     })
+    getChat(user);
   }
 
 

@@ -30,7 +30,7 @@ const HomePage = () => {
               <div className="text-3xl font-bold">{year}</div>
             </div>
             {DailyDone && (
-              <CircleCheckBig className="mx-8" size={80} />
+              <CircleCheckBig className="mx-8" color="limegreen" size={80} />
             )}
           </div>
         </div>

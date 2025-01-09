@@ -272,6 +272,36 @@ export const setCardVisited = async (cardID, isVisited) => {
   }
 };
 
+export const getNumberOfCardsInDeck = async (deckID) => {
+  try {
+    const q = query(
+      collection(db, "flashcards"),
+      where("deck", "==", deckID)
+    );
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.size;
+  } catch (error) {
+    console.error("Error getting number of cards in deck: ", error);
+    return 0;
+  }
+};
+
+export const getNumberOfNewCardsInDeck = async (deckID) => {
+  try {
+    const q = query(
+      collection(db, "flashcards"),
+      where("deck", "==", deckID),
+      where("visited", "==", false)
+    );
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.size;
+  } catch (error) {
+    console.error("Error getting number of new cards in deck: ", error);
+    return 0;
+  }
+};
+
+
 export const testFlashcardFunctions = async (uid) => {
   try {
     // Test adding a deck
@@ -315,3 +345,32 @@ export const testFlashcardFunctions = async (uid) => {
     console.error("Error testing flashcard functions: ", error);
   }
 };
+
+
+// export const addtestingDecks = async (uid) => {
+//   try {
+//     // Test adding two decks
+//     const deckData1 = { title: "Deck 1", userID: uid, language: "french" };
+//     const deckData2 = { title: "Deck 2", userID: uid, language: "spanish" };
+//     const deck1 = await addDeck(deckData1);
+//     const deck2 = await addDeck(deckData2);
+//     console.log("Decks added successfully");
+
+//     const decks = await getDecks(uid);
+//     console.log("Decks retrieved successfully", decks);
+
+//     const deck1ID = decks.find(deck => deck.title === "Deck 1").id;
+//     const deck2ID = decks.find(deck => deck.title === "Deck 2").id;
+
+//     // Test adding 6 flashcards to each deck
+//     for (let i = 1; i <= 6; i++) {
+//       const cardData1 = { deck: deck1ID, translation: `Translation ${i}`, visited: false, word: `Word ${i}`, userID: uid };
+//       const cardData2 = { deck: deck2ID, translation: `Traducción ${i}`, visited: false, word: `Palabra ${i}`, userID: uid };
+//       await addCard(cardData1);
+//       await addCard(cardData2);
+//     }
+//     console.log("Cards added successfully to both decks");
+//   } catch (error) {
+//     console.error("Error testing flashcard functions: ", error);
+//   }
+// };

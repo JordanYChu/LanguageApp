@@ -37,14 +37,14 @@ const App = () => {
         {/* Navigation Sidebar */}
         <nav className="z-30 w-64 bg-white shadow-lg">
           <div className="p-4">
-            <h1 className="text-2xl font-bold text-center">Language App</h1>
+            <h1 className="text-2xl font-bold text-center">ConvoLang</h1>
           </div>
           <div className="flex flex-col space-y-2 p-4">
             <img style={{borderRadius:"100%", width:"30%", alignSelf:"center"}} src={user.photoURL} alt="" />
             <NavItem icon={Home} text="Home" to="/" />
             <NavItem icon={BookOpen} text="Flashcards" to="/flashcards" />
             <NavItem icon={NotebookTabs} text="Topics" to="/topics" />
-            <NavItem icon={CircleHelp} text="Questions" to="/questions" />
+            <NavItem icon={CircleHelp} text="Questions" to="/topics/Questions" />
             <button onClick={SignOut}><NavItem icon={LogOut} text="Logout"></NavItem></button>
             
           </div>
@@ -69,7 +69,7 @@ const App = () => {
               } />
             <Route path="/flashcards" element={<FlashcardsPage />} />
             <Route path="/flashcards/:deckId" element={<FlashcardsGame />} />
-            <Route path="/questions" element={<QuestionsPage />} />
+            <Route path="/questions" element={<ChatPage/>} />
           </Routes>
         </main>
       </div>
