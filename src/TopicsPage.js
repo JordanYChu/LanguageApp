@@ -2,7 +2,7 @@ import { CirclePlus, Play, Search, User, Wrench} from 'lucide-react';
 import { Gamepad2, Apple, Plane, PawPrint, Briefcase, Bike, Bot, Brain, Cpu, HeartPulse, BookX, School, Clapperboard, Leaf, Goal, Microscope, Shirt, Palette, CookingPot, BookOpenText, Music, Dumbbell, CandyCane} from 'lucide-react';
 import { Link } from "react-router-dom";
 import { readChats } from './services/database';
-import { useEffect } from 'react';
+import React, {useContext , useEffect} from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useState } from 'react';
 import { auth } from './firebaseFuncs';
@@ -11,6 +11,8 @@ import { createChat } from './services/database';
 
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
+
+import { LanguageContext } from './LanguageContext';
 
 const topicstemp = [
   // {id: 1, ChatID: "Traveling"},
@@ -55,7 +57,7 @@ return <Icon size={80} className="mx-auto text-purple-400 hover:text-orange-500 
 }
 
 const TopicsPage= () => {
-  const [currLanguage, setLanguage] = useState("English");
+  const {currLanguage, setLanguage} = useContext(LanguageContext);
 
   const [user] = useAuthState(auth)
   // const [user] = useAuthState(auth);

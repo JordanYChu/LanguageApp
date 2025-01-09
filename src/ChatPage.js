@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { SendHorizontal } from "lucide-react";
 import { useAuthState } from 'react-firebase-hooks/auth';
@@ -7,7 +7,10 @@ import logo from './logo192.png';
 import "./ChatPageCSS.css";
 import { chatHandler } from "./services/userChat";
 import './services/database'
-import { getChatInfo, readChats, readEntries } from "./services/database";
+import { getChatInfo, readChats, readEntries, deleteMessages } from "./services/database";
+
+
+import { LanguageContext } from './LanguageContext';
 
 
 
@@ -48,6 +51,7 @@ const PreviousChats = () => (
 const ChatPage = () => {
     
     const [user] = useAuthState(auth);
+    const {currLanguage} = useContext(LanguageContext)
 
     const { topicId } = useParams();
     const currChat = topicId;
@@ -55,6 +59,8 @@ const ChatPage = () => {
     const [messages, setMessages] = useState([]);
     const [text, setText] = useState('');
     // const [chatBar, setChatBar] = useState(true);
+
+    deleteMessages(user.uid, topicId)
 
     const getEntries = async (user) => {
       let a = await readEntries(user.uid, currChat)
@@ -71,7 +77,7 @@ const ChatPage = () => {
     };
 
     const getBotMessage = async (text) => {
-      let botMessage = await chatHandler(user.uid , currChat,text);
+      let botMessage = await chatHandler(user.uid, currChat, text, currLanguage);
       await setMessages([{ Agent: "assistant", message: botMessage }, { Agent: "user", message: text}, ...messages]);
       console.log(messages);
   } 
