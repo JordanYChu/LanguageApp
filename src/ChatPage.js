@@ -7,7 +7,7 @@ import logo from './logo.svg';
 import "./ChatPageCSS.css";
 import { chatHandler } from "./services/userChat";
 import './services/database'
-import { getChatInfo, readChats, readEntries } from "./services/database";
+import { getChatInfo, readChats, readEntries, deleteMessages } from "./services/database";
 
 
 import { LanguageContext } from './LanguageContext';
@@ -59,6 +59,8 @@ const ChatPage = () => {
     const [messages, setMessages] = useState([]);
     const [text, setText] = useState('');
     const [chatBar, setChatBar] = useState(true);
+
+    deleteMessages(user.uid, topicId)
 
     const getEntries = async (user) => {
       let a = await readEntries(user.uid, currChat)

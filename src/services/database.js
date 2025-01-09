@@ -135,6 +135,25 @@ export const createChat = async (data) => {
   }
 };
 
+export const deleteUserMessages = async (uid, chatID) => {
+  try {
+    const q = query(
+      collection(db, "messages"),
+      where("userID", "==", uid),
+      where("ChatID", "==", chatID)
+    );
+
+    const querySnapshot = await getDocs(q);
+    const deletePromises = querySnapshot.docs.map(doc => deleteDoc(doc.ref));
+
+    await Promise.all(deletePromises);
+    console.log(`Successfully deleted messages for user: ${uid} in chat: ${chatID}`);
+    return true;
+  } catch (error) {
+    console.error("Error deleting user messages: ", error);
+    return false;
+  }
+};
 
 // // Usage Example
 // const messageData = {
