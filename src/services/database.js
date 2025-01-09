@@ -329,6 +329,21 @@ export const testFlashcardFunctions = async (uid) => {
 
 // =========================== User info =====================================
 
+export const addUserInfo = async (uid) => {
+  try {
+    const collectionRef = collection(db, "userInfo");
+    const docRef = await addDoc(collectionRef, {
+      lastUsed: new Date(),
+      recentDeck: null,
+      streak: 0,
+      uid: uid
+    });
+    console.log("User info added with ID: ", docRef.id);
+  } catch (e) {
+    console.error("Error adding user info: ", e);
+  }
+};
+
 export const GetUserInfo = async (uid) => {
   try {
     const q = query(
@@ -340,6 +355,12 @@ export const GetUserInfo = async (uid) => {
     querySnapshot.forEach((doc) => {
       userInfo.push({ id: doc.id, ...doc.data() });
     });
+
+    if (userInfo.length === 0) { 
+      await addUserInfo(uid);
+      return await GetUserInfo(uid);
+    }
+
     return userInfo[0];
   } catch (error) {
     console.error("Error getting user info: ", error);
