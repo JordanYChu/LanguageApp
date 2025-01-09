@@ -60,8 +60,6 @@ const ChatPage = () => {
     const [text, setText] = useState('');
     // const [chatBar, setChatBar] = useState(true);
 
-    deleteMessages(user.uid, topicId)
-
     const getEntries = async (user) => {
       let a = await readEntries(user.uid, currChat)
       setMessages(a);
@@ -69,6 +67,7 @@ const ChatPage = () => {
 
 
     useEffect(()=>{
+      deleteMessages(user.uid, topicId)
       getEntries(user);
     }, []) 
 

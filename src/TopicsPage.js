@@ -160,6 +160,7 @@ const TopicsPage= () => {
       SystemMsg: topicDescription,
       UserID: user.uid
     })
+    getChat(user);
   }
 
 
