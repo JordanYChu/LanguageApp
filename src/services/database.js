@@ -346,6 +346,83 @@ export const testFlashcardFunctions = async (uid) => {
   }
 };
 
+// =========================== User info =====================================
+
+export const addUserInfo = async (uid) => {
+  try {
+    const collectionRef = collection(db, "userInfo");
+    const docRef = await addDoc(collectionRef, {
+      lastUsed: new Date(),
+      recentDeck: null,
+      streak: 0,
+      uid: uid
+    });
+    console.log("User info added with ID: ", docRef.id);
+  } catch (e) {
+    console.error("Error adding user info: ", e);
+  }
+};
+
+export const GetUserInfo = async (uid) => {
+  try {
+    const q = query(
+      collection(db, "userInfo"),
+      where("uid", "==", uid)
+    );
+    const querySnapshot = await getDocs(q);
+    const userInfo = [];
+    querySnapshot.forEach((doc) => {
+      userInfo.push({ id: doc.id, ...doc.data() });
+    });
+
+    if (userInfo.length === 0) { 
+      await addUserInfo(uid);
+      return await GetUserInfo(uid);
+    }
+
+    return userInfo[0];
+  } catch (error) {
+    console.error("Error getting user info: ", error);
+    return null;
+  }
+};
+
+export const updateStreak = async (uid) => {
+  try {
+    const userInfo = await GetUserInfo(uid);
+    if (!userInfo) {
+      throw new Error("User info not found");
+    }
+
+    const lastUsed = userInfo.lastUsed.toDate();
+    const today = new Date();
+
+    // Reset time to midnight for both dates to compare only the calendar day
+    lastUsed.setHours(0, 0, 0, 0);
+    today.setHours(0, 0, 0, 0);
+
+    const diffTime = today - lastUsed;
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    let newStreak = userInfo.streak;
+
+    if (diffDays === 1) {
+      newStreak += 1;
+    } else if (diffDays > 1) {
+      newStreak = 1;
+    }
+
+    await updateDoc(doc(db, "userInfo", userInfo.id), {
+      lastUsed: today, // Use the current date without time
+      streak: newStreak
+    });
+
+    console.log("Streak updated successfully");
+    return newStreak;
+  } catch (error) {
+    console.error("Error updating streak: ", error);
+  }
+};
 
 // export const addtestingDecks = async (uid) => {
 //   try {
