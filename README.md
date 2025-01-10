@@ -1,70 +1,37 @@
-# Getting Started with Create React App
+# LexiLearn 🌍
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+LexiLearn is an AI-powered language learning platform that helps you learn languages faster through natural conversations.
 
-## Available Scripts
+[Link to LexiLearn](https://lexilearn-six.vercel.app/)
 
-In the project directory, you can run:
+## 📖 Overview
 
-### `npm start`
+LexiLearn facilitates fast language acquisition by allowing you to have free-form conversations in any language. Our platform makes language learning both effective and enjoyable.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## ✨ Key Features
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Topic Chat
 
-### `npm test`
+- Choose from curated topics to begin chatting in your target language
+- Create custom topics to explore your specific interests
+- Practice conversation skills in a comfortable environment
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Flashcards
 
-### `npm run build`
+- Create and manage vocabulary decks by topic
+- Track studied flashcards
+- Organize cards to match your learning goals
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### User Authentication
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Sign in with Google
+- Track your learning streak
+- Save and manage your custom topics
+- Store your flashcard progress
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 🚀 Getting Started
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+1. Sign in with your Google account
+2. On the topics page, choose a topic or create your own
+3. Start chatting in your target language
+4. On the flashcards page, create flashcards to reinforce your learning
