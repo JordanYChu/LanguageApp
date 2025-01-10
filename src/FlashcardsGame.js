@@ -33,7 +33,7 @@ const FlashcardsGame = () => {
       };
       window.addEventListener('keypress', handleKeyPress);
       return () => window.removeEventListener('keypress', handleKeyPress);
-    }, [isFlipped]);
+    }, []);
   
     const handleNext = () => {
       setCurrentCard((prev) => (prev + 1) % deck.length);
@@ -44,15 +44,15 @@ const FlashcardsGame = () => {
       return (
         <div className="flex flex-col items-center gap-4">
           <div 
-            className="w-96 h-60 cursor-pointer perspective-1000"
+            className="w-96 h-60 cursor-pointer perspective-1000" onClick={(e) => {
+              e.preventDefault();
+              setIsFlipped(!isFlipped);
+            }}
           >
             <div className={`
-              relative w-full h-full duration-500 preserve-3d
+              relative w-full h-full duration-500
             `}>
               <div className="absolute w-full h-full backface-hidden bg-white rounded-xl shadow-lg flex flex-col items-center justify-center text-2xl p-4">
-                <span className="text-sm text-gray-400">
-                  {deck[currentCard].visited ? 'Seen' : 'New'}
-                </span>
                 <div className="flex-1 flex items-center justify-center">
                   {deck && deck.length > 0 && (isFlipped ? deck[currentCard].word : deck[currentCard].translation)}
                 </div>
@@ -65,15 +65,20 @@ const FlashcardsGame = () => {
           <div className="flex flex-row gap-4">
             <button 
               onClick={(e) => {
+                e.preventDefault();
                 setCardVisited(deck[currentCard].id, true);
                 setIsFlipped(false);
+                handleNext()
               }}
               className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
             >
               Got It!
             </button>
             <button 
-              onClick={handleNext}
+              onClick={(e) => {
+                e.preventDefault();
+                handleNext()
+              }}
               className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
             >
               Next Card

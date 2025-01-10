@@ -65,8 +65,7 @@ const HomePage = () => {
 
   return (
     <div className="p-6">
-      <h1 className="text-6xl font-bold mb-4">Welcome Back</h1>
-      <h2><span className="text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-yellow-500">Jordan</span></h2>
+      <h2><span className="text-8xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-yellow-500">Hello!</span></h2>
 
       <div className="px-[15%] flex flex-col items-stretch gap-4 mt-8">
         <h2 className="text-4xl font-bold text-center">Streak</h2>
