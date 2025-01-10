@@ -440,6 +440,36 @@ export const updateStreak = async (uid) => {
   }
 };
 
+export const getRecentDeck = async (uid) => {
+  try {
+    const userInfo = await GetUserInfo(uid);
+    if (!userInfo) {
+      throw new Error("User info not found");
+    }
+    return userInfo.recentDeck;
+  } catch (error) {
+    console.error("Error getting recent deck:", error);
+    return null;
+  }
+};
+
+export const setRecentDeck = async (uid, deck) => {
+  try {
+    const userInfo = await GetUserInfo(uid);
+    if (!userInfo) {
+      throw new Error("User info not found");
+    }
+
+    await updateDoc(doc(db, "userInfo", userInfo.id), {
+      recentDeck: deck
+    });
+
+    console.log("Recent deck updated successfully");
+  } catch (error) {
+    console.error("Error setting recent deck:", error);
+  }
+};
+
 // export const addtestingDecks = async (uid) => {
 //   try {
 //     // Test adding two decks
