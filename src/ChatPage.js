@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { SendHorizontal } from "lucide-react";
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from "./firebaseFuncs";
-import logo from './logo192.png';
+import logo from './logo.png';
 import "./ChatPageCSS.css";
 import { chatHandler } from "./services/userChat";
 import './services/database'
@@ -60,15 +60,14 @@ const ChatPage = () => {
     const [text, setText] = useState('');
     // const [chatBar, setChatBar] = useState(true);
 
-    const getEntries = async (user) => {
-      let a = await readEntries(user.uid, currChat)
-      setMessages(a);
-    }
+    // const getEntries = async (user) => {
+    //   let a = await readEntries(user.uid, currChat)
+    //   setMessages(a);
+    // }
 
 
     useEffect(()=>{
       deleteMessages(user.uid, topicId)
-      getEntries(user);
     }, []) 
 
     const updateInputText = (event) => {

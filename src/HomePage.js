@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { ArrowRightSquare, CircleCheckBig } from "lucide-react";
-import { updateStreak } from "./services/database";
+import { updateStreak, GetUserInfo, readChats } from "./services/database";
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from './firebaseFuncs';
 import { useEffect, useState } from 'react';
@@ -17,7 +17,29 @@ const HomePage = () => {
   const year = today.getFullYear();
   const day = today.getDate();
   
+  const [lastDeck, setLastDeck] = useState("");
+  const [randomChat, setRandomChat] = useState("");
   useEffect(() => {
+    const getChats = async () => {
+      const chats = await readChats(user.uid);
+      const filteredChats = chats.filter(chat => chat.ChatID !== "Questions");
+      if (filteredChats.length > 0) {
+        const randomIndex = Math.floor(Math.random() * filteredChats.length);
+        const randomTopic = filteredChats[randomIndex];
+        setRandomChat(`/topics/${randomTopic.ChatID}`);
+      }
+    }
+    const getUserInfo = async () => {
+      if(user) {
+        try {
+          const userDoc = await GetUserInfo(user.uid);
+          setLastDeck("/" + userDoc.recentDeck);
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+        }
+      }
+
+    }
     const fetchStreak = async () => {
       if (user) {
         try {
@@ -30,8 +52,9 @@ const HomePage = () => {
         }
       }
     };
-
+    getUserInfo();
     fetchStreak();
+    getChats()
   }, [user]);
 
   const DailyDone = true; // You might want to make this dynamic based on user's daily activity
@@ -67,13 +90,13 @@ const HomePage = () => {
         </div>
         <h2 className="text-4xl font-bold text-center">Practice</h2>
         <div className="bg-white rounded-lg shadow-md p-2 text-xl font-bold">
-          <Link to={"/Flashcards"} className="flex items-center justify-between  px-4 py-2 rounded">
+          <Link to={randomChat} className="flex items-center justify-between  px-4 py-2 rounded">
             <span>Random Topic</span>
             <ArrowRightSquare size={32} />
           </Link>
         </div>
         <div className="bg-white rounded-lg shadow-md p-2 text-xl font-bold">
-          <Link to={"/Flashcards"} className="flex items-center justify-between  px-4 py-2 rounded">
+          <Link to={`/Flashcards${lastDeck}`} className="flex items-center justify-between  px-4 py-2 rounded">
             <span>Continue Last Deck</span>
             <ArrowRightSquare size={32} />
           </Link>

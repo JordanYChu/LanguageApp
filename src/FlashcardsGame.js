@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { getFlashcards } from "./services/database";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { setCardVisited } from "./services/database";
+import { updateStreak } from "./services/database";
 import { auth } from "./firebaseFuncs";
 
 const FlashcardsGame = () => {

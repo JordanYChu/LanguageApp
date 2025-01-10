@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from './firebaseFuncs';
-import { addCard, getDecks } from './services/database';
+import { addCard, getDecks, setRecentDeck } from './services/database';
 import { addDeck } from './services/database';
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { ChevronDownIcon } from 'lucide-react';
@@ -49,7 +49,10 @@ const FlashcardsPage = () => {
   };
   const Decks = () => (
     decks.map(deck => (
-      <Link key={deck.title} to={`/flashcards/${deck.id}`} className={`hover:translate-y-[-5px] duration-200 block p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadowblock ${deck.hidden ? 'hidden' : ''}`}>
+      <Link onClick={(e) => {
+        setRecentDeck(user.uid, deck.id)
+      }} 
+      key={deck.title} to={`/flashcards/${deck.id}`} className={`hover:translate-y-[-5px] duration-200 block p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadowblock ${deck.hidden ? 'hidden' : ''}`}>
         <h3 className="text-lg text-center">{deck.title}</h3>
         <div>
           <span className="float-left text-green-600">{deck.totalCards}</span>
@@ -151,6 +154,7 @@ const FlashcardsPage = () => {
       userID: user.uid
     });
     loadDecks();
+    setIsModalOpen(false)
   }
   return (
     <div className="p-6">

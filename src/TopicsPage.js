@@ -161,6 +161,7 @@ const TopicsPage= () => {
       UserID: user.uid
     })
     getChat(user);
+    setIsModalOpen(false);
   }
 
 
